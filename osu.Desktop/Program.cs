@@ -20,11 +20,8 @@ namespace osu.Desktop
 {
     public static class Program
     {
-#if DEBUG
-        private const string base_game_name = @"osu-development";
-#else
+        // taiko4c intentionally shares the normal lazer storage so beatmaps, skins and settings are available in development builds.
         private const string base_game_name = @"osu";
-#endif
 
         private static LegacyTcpIpcProvider? legacyIpc;
 
