@@ -14,6 +14,7 @@ namespace osu.Game.Rulesets.Taiko.Objects
     public class Hit : TaikoStrongableHitObject, IHasDisplayColour
     {
         private HitObjectProperty<HitType> type;
+        private HitHand? displayHand;
 
         public Bindable<HitType> TypeBindable => type.Bindable;
 
@@ -26,20 +27,57 @@ namespace osu.Game.Rulesets.Taiko.Objects
             set => type.Value = value;
         }
 
+        /// <summary>
+        /// The hand this hit should be visually played with.
+        /// A null value keeps the standard two-colour appearance (used for strong hits).
+        /// </summary>
+        public HitHand? DisplayHand
+        {
+            get => displayHand;
+            set
+            {
+                displayHand = value;
+                updateDisplayColour();
+            }
+        }
+
         public Bindable<Color4> DisplayColour { get; } = new Bindable<Color4>(COLOUR_CENTRE);
 
         public static readonly Color4 COLOUR_CENTRE = Color4Extensions.FromHex(@"bb1177");
         public static readonly Color4 COLOUR_RIM = Color4Extensions.FromHex(@"2299bb");
+
+        public static readonly Color4 COLOUR_CENTRE_LEFT = Color4Extensions.FromHex(@"38c172");
+        public static readonly Color4 COLOUR_CENTRE_RIGHT = Color4Extensions.FromHex(@"9b5de5");
+        public static readonly Color4 COLOUR_RIM_LEFT = Color4Extensions.FromHex(@"2299bb");
+        public static readonly Color4 COLOUR_RIM_RIGHT = Color4Extensions.FromHex(@"f28c28");
 
         public Hit()
         {
             TypeBindable.BindValueChanged(_ =>
             {
                 updateSamplesFromType();
-                DisplayColour.Value = Type == HitType.Centre ? COLOUR_CENTRE : COLOUR_RIM;
+                updateDisplayColour();
             });
 
             SamplesBindable.BindCollectionChanged((_, _) => updateTypeFromSamples());
+        }
+
+        private void updateDisplayColour()
+        {
+            if (DisplayHand == null)
+            {
+                DisplayColour.Value = Type == HitType.Centre ? COLOUR_CENTRE : COLOUR_RIM;
+                return;
+            }
+
+            DisplayColour.Value = (Type, DisplayHand) switch
+            {
+                (HitType.Centre, HitHand.Left) => COLOUR_CENTRE_LEFT,
+                (HitType.Centre, HitHand.Right) => COLOUR_CENTRE_RIGHT,
+                (HitType.Rim, HitHand.Left) => COLOUR_RIM_LEFT,
+                (HitType.Rim, HitHand.Right) => COLOUR_RIM_RIGHT,
+                _ => Type == HitType.Centre ? COLOUR_CENTRE : COLOUR_RIM,
+            };
         }
 
         private void updateTypeFromSamples()
@@ -83,5 +121,11 @@ namespace osu.Game.Rulesets.Taiko.Objects
             {
             }
         }
+    }
+
+    public enum HitHand
+    {
+        Left,
+        Right,
     }
 }
