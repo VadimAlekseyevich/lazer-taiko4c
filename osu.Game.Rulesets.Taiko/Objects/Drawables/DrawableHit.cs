@@ -105,8 +105,8 @@ namespace osu.Game.Rulesets.Taiko.Objects.Drawables
         }
 
         protected override SkinnableDrawable CreateMainPiece() => HitObject.Type == HitType.Centre
-            ? new SkinnableDrawable(new TaikoSkinComponentLookup(TaikoSkinComponents.CentreHit), _ => new CentreHitCirclePiece(HitObject.DisplayColour.Value), confineMode: ConfineMode.ScaleToFit)
-            : new SkinnableDrawable(new TaikoSkinComponentLookup(TaikoSkinComponents.RimHit), _ => new RimHitCirclePiece(HitObject.DisplayColour.Value), confineMode: ConfineMode.ScaleToFit);
+            ? new SkinnableDrawable(new FourColourHitComponentLookup(), _ => new CentreHitCirclePiece(HitObject.DisplayColour.Value), confineMode: ConfineMode.ScaleToFit)
+            : new SkinnableDrawable(new FourColourHitComponentLookup(), _ => new RimHitCirclePiece(HitObject.DisplayColour.Value), confineMode: ConfineMode.ScaleToFit);
 
         protected override void CheckForResult(bool userTriggered, double timeOffset)
         {
@@ -270,6 +270,14 @@ namespace osu.Game.Rulesets.Taiko.Objects.Drawables
 
                 return UpdateResult(true);
             }
+        }
+
+        /// <summary>
+        /// A lookup type intentionally unknown to existing skins.
+        /// This makes osu! use the four-colour fallback note implementation while leaving all other skin elements untouched.
+        /// </summary>
+        private sealed class FourColourHitComponentLookup : ISkinComponentLookup
+        {
         }
     }
 }
