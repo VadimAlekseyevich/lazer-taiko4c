@@ -108,14 +108,8 @@ namespace osu.Game.Rulesets.Taiko.Beatmaps
 
             foreach (Hit hit in beatmap.HitObjects.OfType<Hit>())
             {
-                // Strong hits are intentionally left unchanged for the first version.
-                // They also do not advance the alternating-hand sequence.
-                if (hit.IsStrong)
-                {
-                    hit.DisplayHand = null;
-                    continue;
-                }
-
+                // Strong hits participate in the same L/R sequence as normal hits.
+                // Their original two-key bonus/scoring behaviour remains unchanged.
                 hit.DisplayHand = useLeftHand ? HitHand.Left : HitHand.Right;
                 useLeftHand = !useLeftHand;
             }
