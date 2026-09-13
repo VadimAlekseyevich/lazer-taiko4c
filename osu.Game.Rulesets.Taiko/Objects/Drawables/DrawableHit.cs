@@ -105,8 +105,8 @@ namespace osu.Game.Rulesets.Taiko.Objects.Drawables
         }
 
         protected override SkinnableDrawable CreateMainPiece() => HitObject.Type == HitType.Centre
-            ? new SkinnableDrawable(new TaikoSkinComponentLookup(TaikoSkinComponents.CentreHit), _ => new CentreHitCirclePiece(), confineMode: ConfineMode.ScaleToFit)
-            : new SkinnableDrawable(new TaikoSkinComponentLookup(TaikoSkinComponents.RimHit), _ => new RimHitCirclePiece(), confineMode: ConfineMode.ScaleToFit);
+            ? new SkinnableDrawable(new TaikoSkinComponentLookup(TaikoSkinComponents.CentreHit), _ => new CentreHitCirclePiece(HitObject.DisplayColour.Value), confineMode: ConfineMode.ScaleToFit)
+            : new SkinnableDrawable(new TaikoSkinComponentLookup(TaikoSkinComponents.RimHit), _ => new RimHitCirclePiece(HitObject.DisplayColour.Value), confineMode: ConfineMode.ScaleToFit);
 
         protected override void CheckForResult(bool userTriggered, double timeOffset)
         {
