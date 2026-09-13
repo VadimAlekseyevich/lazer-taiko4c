@@ -89,6 +89,8 @@ namespace osu.Game.Rulesets.Taiko.Beatmaps
                 }).ToList();
             }
 
+            assignAlternatingHands(converted);
+
             // TODO: stable makes the last tick of a drumroll non-required when the next object is too close.
             // This probably needs to be reimplemented:
             //
@@ -98,6 +100,19 @@ namespace osu.Game.Rulesets.Taiko.Beatmaps
             //     lastTickHittable = false;
 
             return converted;
+        }
+
+        private static void assignAlternatingHands(Beatmap<TaikoHitObject> beatmap)
+        {
+            bool useLeftHand = true;
+
+            foreach (Hit hit in beatmap.HitObjects.OfType<Hit>())
+            {
+                // Strong hits participate in the same L/R sequence as normal hits.
+                // Their original two-key bonus/scoring behaviour remains unchanged.
+                hit.DisplayHand = useLeftHand ? HitHand.Left : HitHand.Right;
+                useLeftHand = !useLeftHand;
+            }
         }
 
         protected override IEnumerable<TaikoHitObject> ConvertHitObject(HitObject obj, IBeatmap beatmap, CancellationToken cancellationToken)

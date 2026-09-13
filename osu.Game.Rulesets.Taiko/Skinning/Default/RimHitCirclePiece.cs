@@ -13,15 +13,23 @@ namespace osu.Game.Rulesets.Taiko.Skinning.Default
 {
     public partial class RimHitCirclePiece : CirclePiece
     {
+        private readonly Color4 accentColour;
+
         public RimHitCirclePiece()
+            : this(Hit.COLOUR_RIM)
         {
+        }
+
+        public RimHitCirclePiece(Color4 accentColour)
+        {
+            this.accentColour = accentColour;
             Add(new RimHitSymbolPiece());
         }
 
         [BackgroundDependencyLoader]
         private void load()
         {
-            AccentColour = Hit.COLOUR_RIM;
+            AccentColour = accentColour;
         }
 
         /// <summary>
