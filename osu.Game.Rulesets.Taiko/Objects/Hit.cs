@@ -29,7 +29,6 @@ namespace osu.Game.Rulesets.Taiko.Objects
 
         /// <summary>
         /// The hand this hit should be visually played with.
-        /// A null value keeps the standard two-colour appearance (used for strong hits).
         /// </summary>
         public HitHand? DisplayHand
         {
@@ -43,12 +42,14 @@ namespace osu.Game.Rulesets.Taiko.Objects
 
         public Bindable<Color4> DisplayColour { get; } = new Bindable<Color4>(COLOUR_CENTRE);
 
-        public static readonly Color4 COLOUR_CENTRE = Color4Extensions.FromHex(@"bb1177");
-        public static readonly Color4 COLOUR_RIM = Color4Extensions.FromHex(@"2299bb");
+        public static readonly Color4 COLOUR_CENTRE = Color4Extensions.FromHex(@"2299bb");
+        public static readonly Color4 COLOUR_RIM = Color4Extensions.FromHex(@"f28c28");
 
+        // Four-colour mapping. The original blue/orange pair is retained for one hand,
+        // with green/purple used for the alternating hand.
         public static readonly Color4 COLOUR_CENTRE_LEFT = Color4Extensions.FromHex(@"38c172");
-        public static readonly Color4 COLOUR_CENTRE_RIGHT = Color4Extensions.FromHex(@"9b5de5");
-        public static readonly Color4 COLOUR_RIM_LEFT = Color4Extensions.FromHex(@"2299bb");
+        public static readonly Color4 COLOUR_CENTRE_RIGHT = Color4Extensions.FromHex(@"2299bb");
+        public static readonly Color4 COLOUR_RIM_LEFT = Color4Extensions.FromHex(@"9b5de5");
         public static readonly Color4 COLOUR_RIM_RIGHT = Color4Extensions.FromHex(@"f28c28");
 
         public Hit()
