@@ -7,20 +7,29 @@ using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
 using osu.Game.Rulesets.Taiko.Objects;
 using osuTK;
+using osuTK.Graphics;
 
 namespace osu.Game.Rulesets.Taiko.Skinning.Default
 {
     public partial class CentreHitCirclePiece : CirclePiece
     {
+        private readonly Color4 accentColour;
+
         public CentreHitCirclePiece()
+            : this(Hit.COLOUR_CENTRE)
         {
+        }
+
+        public CentreHitCirclePiece(Color4 accentColour)
+        {
+            this.accentColour = accentColour;
             Add(new CentreHitSymbolPiece());
         }
 
         [BackgroundDependencyLoader]
         private void load()
         {
-            AccentColour = Hit.COLOUR_CENTRE;
+            AccentColour = accentColour;
         }
 
         /// <summary>
